@@ -1,6 +1,9 @@
 namespace AdventOfCodeCSharp._2015;
 
-public class Advent20151 {
+public class Advent20151
+{
+    public int Returnlevel;
+    public int Returnedposition;
     public void Run()
     {
         string filePath = "tests/2015_1.txt"; // Replace with your file path
@@ -37,8 +40,8 @@ public class Advent20151 {
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
-        Console.WriteLine(level);
-        Console.WriteLine(position);
+        Returnlevel = level;
+        Returnedposition = position;
     }
     
 

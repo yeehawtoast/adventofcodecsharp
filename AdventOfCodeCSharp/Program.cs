@@ -1,56 +1,129 @@
 ﻿using System;
 using System.Diagnostics;
+using adventOfCodeCSharp;
 using AdventOfCodeCSharp;
+using Terminal.Gui;
+//TODO: VISUALIZE EACH YEAR WITH ITS COMPLETED DESIGN. THAT WOULD BE FUN
+
 
 class Program
 {
     static void Main()
     {
-        string userInput = string.Empty;
-        SelectOptions obj2023 = new SelectOptions();
+        Application.Init();
+        Colors.Base.Normal = new Terminal.Gui.Attribute(Color.White, Color.Black);
+        
+        var top = Application.Top;
 
-        while (userInput.ToLower() != "exit")
+        var mainWindow = new Window("Advent of Code C#")
         {
-            Console.Clear();
-           MakeTree();
-           Console.WriteLine("Welcome to Advent of Code!");
-           Console.WriteLine("Please type a year between 2015 and 2023 to continue or type exit to quit!");
-           userInput = Console.ReadLine() ?? throw new InvalidOperationException();
-           switch (userInput)
-           {
-               case "2015":
-                   obj2023.Select2015();
-                   break;
-               case "2016":
-                   break;
-               case "2017":
-                   break;
-               case "2018":
-                   break;
-               case "2019":
-                   break;
-               case "2020":
-                   break;
-               case "2021":
-                   break;
-               case "2022":
-                   obj2023.Select2022();
-                   break;
-               case "2023":
-                   
-                   obj2023.Select2023();
-                   break;
-           }
-        }
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+        };
+        
 
-        Console.Clear();
-        Console.WriteLine("Exiting the application. Goodbye!");
+
+        var mainTree = new Label(@"
+    _\/_
+     /\
+     /\
+    /  \
+    /~~\o
+   /o   \
+  /~~*~~~\
+ o/    o \
+ /~~~~~~~~\~`
+/__*_______\
+     ||
+   \====/
+    \__/
+")
+        {
+            X = Pos.Center(),
+            Y = Pos.Center()
+        };
+        mainWindow.Add(mainTree);
+        
+        var mainLabel = new Label("Advent of Code C#")
+        {
+            X = Pos.Center(),
+            Y = Pos.Bottom(mainTree),
+        };
+        mainWindow.Add(mainLabel);
+        var exitLabel = new Label("Press ESC to exit")
+        {
+            X = 0,
+            Y = 0,
+        };
+        mainWindow.Add(exitLabel);
+
+        
+        var btnYears = new Button
+        {
+            Text = "See Years",
+            Y = Pos.Bottom (mainLabel) + 1,
+
+            // center the login button horizontally
+            X = Pos.Center (),
+            IsDefault = true,
+            ColorScheme = new ColorScheme()
+            {
+                Normal = new Terminal.Gui.Attribute(Color.White, Color.Black),
+                Focus = new Terminal.Gui.Attribute(Color.Black, Color.White),
+            }
+        };
+        
+        mainWindow.Add(btnYears);
+        
+        var btnExit = new Button
+        {
+            Text = "Quit",
+            Y = Pos.Bottom (btnYears),
+
+            // center the login button horizontally
+            X = Pos.Center (),
+            IsDefault = true,
+            ColorScheme = new ColorScheme()
+            {
+                Normal = new Terminal.Gui.Attribute(Color.White, Color.Black),
+                Focus = new Terminal.Gui.Attribute(Color.Black, Color.White),
+            }
+        };
+        mainWindow.Add(btnExit);
+        
+        top.Add(mainWindow);
+        top.KeyPress += (View.KeyEventEventArgs args) =>
+        {
+            if (args.KeyEvent.Key == Key.Esc)
+            {
+                Application.RequestStop(); // Gracefully stops the application
+            }
+        };
+        btnYears.Clicked += () =>
+        {
+            SwitchToNewScreen(top);
+        };
+        btnExit.Clicked += () =>
+        {
+            Application.RequestStop();
+        };
+        
+        Application.Run();
     }
-
-    static void MakeTree()
+    static void SwitchToNewScreen(Toplevel top)
     {
-        Console.WriteLine(
-            "             /\\\n            <  >\n             \\/\n             /\\\n            /  \\\n           /++++\\\n          /  ()  \\\n          /      \\\n         /~`~`~`~`\\\n        /  ()  ()  \\\n        /          \\\n       /*&*&*&*&*&*&\\\n      /  ()  ()  ()  \\\n      /              \\\n     /++++++++++++++++\\\n    /  ()  ()  ()  ()  \\\n    /                  \\\n   /~`~`~`~`~`~`~`~`~`~`\\\n  /  ()  ()  ()  ()  ()  \\\n  /*&*&*&*&*&*&*&*&*&*&*&\\\n /                        \\\n/,.,.,.,.,.,.,.,.,.,.,.,.,.\\\n           |   |\n          |`````|\n          \\_____/");
-    }
+        // Instantiate the new screen (defined in a separate class)
+        SelectOptions newScreen = new SelectOptions(top);
 
+        // Clear the current window and show the new screen
+        top.Clear();
+        top.Add(newScreen);
+        
+        Application.MainLoop.Invoke(() => {
+            newScreen.Adv2024.SetFocus();
+        });
+    }
 }
+

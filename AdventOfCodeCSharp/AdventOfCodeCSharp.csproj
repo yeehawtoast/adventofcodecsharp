@@ -8,18 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="2016\" />
-      <Folder Include="2017\" />
-      <Folder Include="2018\" />
-      <Folder Include="2019\" />
-      <Folder Include="2020\" />
-      <Folder Include="2021\" />
-      <Folder Include="2022\" />
-      <Folder Include="2023\" />
-      <Folder Include="2024\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Update="tests\2015_1.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
@@ -32,6 +20,10 @@
       <None Update="tests\2015_4.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Terminal.Gui" Version="1.17.1" />
     </ItemGroup>
 
 </Project>
